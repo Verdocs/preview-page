@@ -1,0 +1,243 @@
+.template {
+  &__header {
+    padding-left: 32px;
+    padding-right: 16px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    line-height: 64px;
+    width: 100%;
+    z-index: 25;
+
+    @media only screen and (max-width: 600px) {
+      line-height: 56px;
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+    z-index: 20;
+  }
+
+  &__return {
+    background-color: #FFF;
+    border-radius: 2px;
+    line-height: 36px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
+
+    &-icon {
+      line-height: 20px;
+    }
+  }
+
+  &__realster {
+    float: right;
+  }
+
+  &__body {
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 61px;
+    background-color: $envelope-view-background;
+    // height: 100%;
+    @include fullHeight;
+
+    &-wrapper {
+      max-height: calc(100% - 64px);
+      overflow-y: auto;
+      overflow-x:hidden;
+
+      @media only screen and (max-width: 854px) {
+        max-height: calc(100% - 106px);
+        margin-top: 42px;
+      }
+    }
+
+    &.placeholder {
+      overflow: hidden;
+      text-align: center;
+    }
+  }
+  &__shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__placeholder {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 816px;
+    max-height: 1056px; 
+    &-wrapper {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 812px;
+    }
+    &-container {
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+      border: 1px solid #d1d5da;
+      &:after {
+        content:'';
+        background-image: linear-gradient(110deg, rgba(255,255,255,0) 0%,rgba(255,255,255,.0) 25%,rgba(255,255,255,0) 40%,rgba(255,255,255,.25) 50%,rgba(255,255,255,0.54) 60%,rgba(255,255,255,0.25) 70%,rgba(255,255,255,0) 100%);
+        background-repeat: repeat-y;
+        background-position:-2000px 0;
+        // transform: skew(160deg);
+        display: inline-block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0; 
+        
+        animation-duration: 2.5s;
+        animation-fill-mode: forwards; 
+        animation-iteration-count: infinite;
+        animation-name: placeholderShimmer;
+        animation-timing-function: linear;
+
+        @media only screen and (max-width: 600px) {
+          animation-duration: 5s;
+        }
+      }
+    }
+  }
+  &__fields {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  &__footer {
+    padding-bottom: 24px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 56px;
+    width: 100%;
+    z-index: 25;
+  }
+
+  &__recipients {
+    &-container {
+      margin: 0 auto;
+      text-align: center;
+
+      @media only screen and (max-width: 417px) {
+        display: none;
+      }
+    }
+  }
+
+  $recipients: 100;
+
+  &__recipient {
+    display: inline-block;
+    text-align: center;
+    line-height: 32px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    border-radius: 100%;
+    @for $i from 1 to $recipients {
+      &:nth-child(#{$i + 1}) {
+        transform: translateX(#{$i * -6}px);
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+    &.selected {
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, .24);
+    }
+  }
+
+  &__action {
+    &-container {
+      position: absolute;
+      top: 0;
+      right: 16px;
+      opacity: 1;
+      visibility: visible;
+      transition: all 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94); 
+
+      &.hasCreateDialog {
+        top: -38px;
+        right: 25px;
+      }
+
+      &.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    &-progress circle {
+      stroke: #FFF;
+    }
+
+    &-button {
+      border-radius: 100px;
+      text-transform: uppercase;
+      color: #FFF;
+      background: linear-gradient(294deg, #4c56cb, #50be80);
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
+      transition: all 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+
+      &:hover {
+        color: #A8D0FF;
+        // color: #000;
+      }
+
+      &:disabled {
+        background: linear-gradient(45deg, #d4d6d5, #b9b8b8)
+      }
+
+      &.inProgress {
+        border-radius: 100px;
+        padding: 0;
+        min-width: 32px;
+        background: linear-gradient(45deg, #d4d6d5, #b9b8b8)
+      }
+    }
+  }
+}
+
+@keyframes shine {
+  0% {background-position:-5000px 0}
+  100% {background-position:5000px 0}
+}
+@keyframes placeholderShimmer {
+  0% {background-position:-2000px 0}
+  100% {background-position:2000px 0}
+}
+
+.pdf {
+  &__document {
+    opacity: 0;
+    transition: all 300ms cubic-bezier(0.4, 0.0, 0.2, 1);
+
+    &.show {
+      opacity: 1;
+      padding-bottom: 80px;
+    }
+  }
+}

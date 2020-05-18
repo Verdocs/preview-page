@@ -1,0 +1,15 @@
+{
+  "name": "@verdocs/template-preview",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^8.2.0",
+    "@angular/core": "^8.2.0"
+  },
+  "dependencies": {
+    "@verdocs/essentials": "0.0.1-beta.27",
+    "@verdocs/event-tracker": "0.0.4-beta.1",
+    "@verdocs/header": "^1.0.8-beta.2",
+    "@verdocs/sdk": "0.0.1-beta.26",
+    "@verdocs/tokens": "^1.0.2-beta.10"
+  }
+}

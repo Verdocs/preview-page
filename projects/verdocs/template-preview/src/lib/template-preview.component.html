@@ -1,0 +1,44 @@
+<div class="template__body-wrapper">
+  <div class="template__body placeholder" *ngIf="loading" style.minHeight="bodyHeight">
+    <div class="template__placeholder-wrapper">
+      <div class="template__placeholder-container" *ngIf="!totalPages">
+        <div class="template__shine"></div>
+        <img class="template__placeholder" src="/assets/template/document_placeholder.svg">
+      </div>
+      <div class="template__placeholder-container" *ngFor="let fakePage of totalPages">
+        <div class="template__shine"></div>
+        <img class="template__placeholder" src="/assets/template/document_placeholder.svg">
+      </div>
+    </div>
+  </div>
+  <div class="template__body" #pdfBody *ngIf="pdfUrl" (window:resize)="onResize()" style.minHeight="bodyHeight">
+    <div class="template__overlay"></div>
+    <verdocs-pdf-viewer #pdfDoc class="pdf__document" *ngIf="isBrowser" (page-rendered)="onPageRendered($event)" [pdfUrl]="pdfUrl.changingThisBreaksApplicationSecurity" [ngClass]="{show: !loading}"></verdocs-pdf-viewer>
+    <div class="template__fields" *ngIf="(fields && fields.length > 0 && !loading)">
+      <div *ngFor="let num of totalPages; let i = index; trackBy: numTracking;" class="template__field"
+        [id]="'pdf_'+(i+1)" [ngStyle]="getWrapperStyling(i)" #fieldWrappers>
+        <envelope-fields-lite [fields]="fields" [pageNum]="i+1" [recipients]="roles"
+          [selectedRoleName]="selectedRole" [pdfPages]="pdfPages" *ngIf="pageRendered[i] === i + 1"></envelope-fields-lite>
+      </div>
+    </div>
+  </div>
+  <div class="template__footer" [ngStyle]="{'bottom': footerBottom}">
+    <div class="template__recipients-container">
+      <div class="template__recipient" *ngFor="let role of roles; let i = index; trackBy: roleTracking"
+        (click)="selectRole(role.name, $event)" [ngClass]="{selected: role.name === selectedRole}"
+        [matTooltip]="tooltipText(role)" [matTooltipPosition]="'above'" [matTooltipClass]="'roleTooltip'"
+        [style.backgroundColor]="getRGB(i)">
+        {{ roleInitial(role) }}
+      </div>
+    </div>
+    <div class="template__action-container"
+      [ngClass]="{ hasCreateDialog: hasCreateDialog, hidden: hasCreateDialog && !currentProfile}"
+      [matTooltip]="getCanSendTooltip()">
+      <button mat-raised-button class="template__action-button" [disabled]="!canClickCreate()"
+        [ngClass]="{'inProgress': isInProgress}" (click)="openCreateEnvelopeDialog(true)">
+        <span *ngIf="!isInProgress"> {{ templateActionLabel() }}</span>
+        <mat-spinner class="template__action-progress" [diameter]="32" *ngIf="isInProgress"></mat-spinner>
+      </button>
+    </div>
+  </div>
+  </div>
